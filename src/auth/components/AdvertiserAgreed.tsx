@@ -6,7 +6,6 @@ import {
   Container,
   Divider,
   FormControlLabel,
-  Link,
   Stack,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
@@ -16,8 +15,11 @@ import { getUser } from "auth/lib";
 import { useAdvertiser } from "auth/hooks/queries/useAdvertiser";
 import { useHistory } from "react-router-dom";
 import { PaymentType } from "graphql/types";
+import { Trans, msg } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 
 export function AdvertiserAgreed() {
+  const { _ } = useLingui();
   const { advertiser } = useAdvertiser();
   const requiresPaymentAgree =
     advertiser.selfServiceManageCampaign &&
@@ -55,30 +57,37 @@ export function AdvertiserAgreed() {
       >
         <Stack spacing={0.5}>
           <Typography variant="h4">
-            Welcome to Brave Ads, <strong>{advertiser.name}</strong>
+            <Trans>
+              Welcome to Brave Ads, <strong>{advertiser.name}</strong>
+            </Trans>
           </Typography>
           <Typography variant="subtitle1">
-            Prior to using the dashboard, please take a moment to review the
-            following acknowledgements:
+            <Trans>
+              Prior to using the dashboard, please take a moment to review the
+              following acknowledgements:
+            </Trans>
           </Typography>
         </Stack>
 
         <Divider sx={{ mt: 1, mb: 1 }} />
 
         <Stack mb={2} spacing={0.5}>
-          <Typography sx={{ fontWeight: 600 }}>Reporting</Typography>
+          <Typography sx={{ fontWeight: 600 }}>
+            <Trans>Reporting</Trans>
+          </Typography>
           <Typography>
-            Brave’s products are made to uphold user privacy. By default, the
-            Brave browser blocks third-party tracking (scripts, tags, pixels,
-            etc.) including those used by Google Analytics. This means that most
-            standard website reporting won’t be compatible with Brave Ads. To
-            ensure advertisers have visibility into performance of campaigns,
-            we’ve detailed other effective privacy-first options for measurement
-            in our{" "}
-            <Link href="https://brave.com/brave-ads/reporting/" target="_blank">
-              reporting guide
-            </Link>
-            .
+            <Trans>
+              Brave’s products are made to uphold user privacy. By default, the
+              Brave browser blocks third-party tracking (scripts, tags, pixels,
+              etc.) including those used by Google Analytics. This means that
+              most standard website reporting won’t be compatible with Brave
+              Ads. To ensure advertisers have visibility into performance of
+              campaigns, we’ve detailed other effective privacy-first options
+              for measurement in our reporting guide
+            </Trans>
+            {/*<Link href="https://brave.com/brave-ads/reporting/" target="_blank">*/}
+            {/*  reporting guide*/}
+            {/*</Link>*/}.
           </Typography>
           <FormControlLabel
             control={
@@ -88,18 +97,24 @@ export function AdvertiserAgreed() {
                 name="tracking"
               />
             }
-            label="I understand that Brave Ads will not be compatible with Google Analytics and similar solutions that rely on third-party trackers"
+            label={_(
+              msg`I understand that Brave Ads will not be compatible with Google Analytics and similar solutions that rely on third-party trackers`,
+            )}
           />
         </Stack>
 
         {requiresPaymentAgree && (
           <Stack mb={2} spacing={0.5}>
-            <Typography sx={{ fontWeight: 600 }}>Payment</Typography>
+            <Typography sx={{ fontWeight: 600 }}>
+              <Trans>Payment</Trans>
+            </Typography>
             <Typography>
-              To launch a campaign with Brave, you are required to prepay the
-              full amount you intend to spend. Any remaining funds from your
-              budget will be credited back to your original payment method upon
-              request.
+              <Trans>
+                To launch a campaign with Brave, you are required to prepay the
+                full amount you intend to spend. Any remaining funds from your
+                budget will be credited back to your original payment method
+                upon request.
+              </Trans>
             </Typography>
             <FormControlLabel
               control={
@@ -109,29 +124,37 @@ export function AdvertiserAgreed() {
                   name="payment"
                 />
               }
-              label="I understand that pre-payment is required to launch my campaigns"
+              label={_(
+                msg`I understand that pre-payment is required to launch my campaigns`,
+              )}
             />
           </Stack>
         )}
 
         <Stack mb={2} spacing={0.5}>
-          <Typography sx={{ fontWeight: 600 }}>Terms & Conditions</Typography>
+          <Typography sx={{ fontWeight: 600 }}>
+            <Trans>Terms & Conditions</Trans>
+          </Typography>
           <Typography>
-            By continuing, you acknowledge and agree to our{" "}
-            <Link href="https://brave.com/privacy/advertiser" target="_blank">
-              Privacy Policy
-            </Link>{" "}
-            and platform{" "}
-            <Link href="https://brave.com/brave-ads/terms/" target="_blank">
-              Terms and Conditions
-            </Link>
-            .
+            <Trans>
+              By continuing, you acknowledge and agree to our Privacy Policy and
+              platform Terms and Conditions.
+            </Trans>
+            {/*By continuing, you acknowledge and agree to our{" "}*/}
+            {/*<Link href="https://brave.com/privacy/advertiser" target="_blank">*/}
+            {/*  Privacy Policy*/}
+            {/*</Link>{" "}*/}
+            {/*and platform{" "}*/}
+            {/*<Link href="https://brave.com/brave-ads/terms/" target="_blank">*/}
+            {/*  Terms and Conditions*/}
+            {/*</Link>*/}
+            {/*.*/}
           </Typography>
           <FormControlLabel
             control={
               <Checkbox checked={terms} onChange={handleAgreed} name="terms" />
             }
-            label="I agree"
+            label={_(msg`I agree`)}
           />
         </Stack>
 
@@ -150,7 +173,7 @@ export function AdvertiserAgreed() {
           }
           loading={loading}
         >
-          Continue
+          <Trans>Continue</Trans>
         </LoadingButton>
       </Card>
     </Container>

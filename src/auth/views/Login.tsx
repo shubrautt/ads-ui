@@ -4,11 +4,14 @@ import { useState } from "react";
 import { Link as RouterLink, useHistory } from "react-router-dom";
 import { useSignIn } from "auth/hooks/mutations/useSignIn";
 import { AuthContainer } from "auth/views/components/AuthContainer";
+import { Trans, msg } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 
 export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
+  const { _ } = useLingui();
 
   const { signIn, loading, error } = useSignIn({
     onSuccess() {
@@ -22,15 +25,14 @@ export function Login() {
         sx={{ fontFamily: "Poppins", color: "#434251" }}
         variant="subtitle1"
       >
-        Log into your Brave Ads account
+        <Trans>Log into your Brave Ads account</Trans>
       </Typography>
       <TextField
         sx={{ mt: 5, mb: 3 }}
         fullWidth
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        label="Email"
-        placeholder="Enter your email"
+        label={_(msg`Email`)}
       />
       <TextField
         fullWidth
@@ -38,8 +40,7 @@ export function Login() {
         type="password"
         sx={{ mb: 2 }}
         onChange={(e) => setPassword(e.target.value)}
-        label="Password"
-        placeholder="Enter your password"
+        label={_(msg`Password`)}
       />
 
       {error && <Alert severity="error">{error}</Alert>}
@@ -55,7 +56,7 @@ export function Login() {
           signIn(email, password);
         }}
       >
-        Log in
+        <Trans>Log in</Trans>
       </LoadingButton>
 
       <Link
@@ -65,7 +66,7 @@ export function Login() {
         to="/auth/link"
         replace
       >
-        or sign in using a secure link
+        <Trans>or sign in using a secure link</Trans>
       </Link>
     </AuthContainer>
   );

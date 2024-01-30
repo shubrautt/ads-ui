@@ -7,10 +7,13 @@ import { Link as RouterLink } from "react-router-dom";
 import { useIsMobile } from "hooks/useIsMobile";
 import { MobileAdsBenefits } from "auth/views/MobileAdsBenefits";
 import { GradientText } from "components/Typography/GradientText";
+import { msg, Trans } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 
 export function LandingPage() {
   const isAuthenticated = useIsAuthenticated();
   const isMobile = useIsMobile();
+  const { _ } = useLingui();
 
   return (
     <Background>
@@ -24,12 +27,15 @@ export function LandingPage() {
       >
         <Stack sx={{ maxWidth: "430px" }} spacing={{ xs: 3, md: 6 }}>
           <Typography variant="h3" textAlign="left">
-            <GradientText text="Privacy-forward" /> advertising made simple
+            <GradientText text={_(msg`Privacy-forward`)} />{" "}
+            {_(msg`advertising made simple`)}
           </Typography>
 
           <Typography variant="h6">
-            Reach and convert new customers through premium advertising on the
-            Brave browser and search engine.
+            <Trans>
+              Reach and convert new customers through premium advertising on the
+              Brave browser and search engine.
+            </Trans>
           </Typography>
 
           <Box display="flex" flexDirection="column">
@@ -48,7 +54,7 @@ export function LandingPage() {
             </Button>
             {!isMobile && !isAuthenticated && (
               <Typography variant="subtitle1">
-                Already have an account?
+                <Trans>Already have an account?</Trans>
                 <Link
                   variant="subtitle1"
                   underline="none"
@@ -57,7 +63,7 @@ export function LandingPage() {
                   to="/auth/link"
                   sx={{ ml: 1 }}
                 >
-                  Log in
+                  <Trans>Log in</Trans>
                 </Link>
               </Typography>
             )}

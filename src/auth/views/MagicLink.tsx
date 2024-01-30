@@ -5,10 +5,13 @@ import { Link as RouterLink } from "react-router-dom";
 import { useGetLink } from "auth/hooks/mutations/useGetLink";
 import { LoadingButton } from "@mui/lab";
 import { AuthContainer } from "auth/views/components/AuthContainer";
+import { msg, Trans } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 
 export function MagicLink() {
   const [email, setEmail] = useState("");
   const [requested, setRequested] = useState(false);
+  const { _ } = useLingui();
 
   const { requestLink, loading, error } = useGetLink({
     onSuccess() {
@@ -20,23 +23,28 @@ export function MagicLink() {
     return (
       <AuthContainer>
         <Typography variant="h4" sx={{ mb: 3, mt: 2 }}>
-          A login email is on the way
+          <Trans>A login email is on the way</Trans>
         </Typography>
         <Typography variant="subtitle1" sx={{ mb: 2 }}>
-          Click on the secure login link in the email to access your Brave Ads
-          account.
+          <Trans>
+            Click on the secure login link in the email to access your Brave Ads
+            account.
+          </Trans>
         </Typography>
         <Typography variant="subtitle1">
-          Don&rsquo;t see the email? Check your spam folder or{" "}
-          <Link
-            sx={{ cursor: "pointer" }}
-            variant="inherit"
-            onClick={() => {
-              setRequested(false);
-            }}
-          >
-            try again.
-          </Link>
+          <Trans>
+            Don&rsquo;t see the email? Check your spam folder or try again.
+          </Trans>
+          {/*Don&rsquo;t see the email? Check your spam folder or{" "}*/}
+          {/*<Link*/}
+          {/*  sx={{ cursor: "pointer" }}*/}
+          {/*  variant="inherit"*/}
+          {/*  onClick={() => {*/}
+          {/*    setRequested(false);*/}
+          {/*  }}*/}
+          {/*>*/}
+          {/*  try again.*/}
+          {/*</Link>*/}
         </Typography>
       </AuthContainer>
     );
@@ -45,8 +53,10 @@ export function MagicLink() {
   return (
     <AuthContainer>
       <Typography sx={{ textAlign: "center", mb: 3 }} variant="subtitle1">
-        Enter your email address to get a secure login link. Use this link to
-        access your Brave Ads account.
+        <Trans>
+          Enter your email address to get a secure login link. Use this link to
+          access your Brave Ads account.
+        </Trans>
       </Typography>
 
       <TextField
@@ -54,8 +64,7 @@ export function MagicLink() {
         fullWidth
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        label="Email"
-        placeholder="Enter your email"
+        label={_(msg`Email`)}
         error={!!error}
         helperText={error}
       />
@@ -71,7 +80,7 @@ export function MagicLink() {
           requestLink(email);
         }}
       >
-        Get login link
+        <Trans>Get login link</Trans>
       </LoadingButton>
 
       <Link
@@ -81,7 +90,7 @@ export function MagicLink() {
         to="/auth/signin"
         replace
       >
-        or sign in using a password
+        <Trans>or sign in using a password</Trans>
       </Link>
     </AuthContainer>
   );
