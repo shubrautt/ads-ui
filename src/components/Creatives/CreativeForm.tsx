@@ -18,6 +18,7 @@ import { CreativeInput } from "graphql/types";
 import { CampaignFragment } from "graphql/campaign.generated";
 import _ from "lodash";
 import { isReviewableState } from "util/displayState";
+import { msg, Trans } from "@lingui/macro";
 
 interface Params {
   id: string;
@@ -46,7 +47,10 @@ export function CreativeForm() {
 
   if (getError) {
     return (
-      <ErrorDetail error={getError} additionalDetails="Unable to load Ad" />
+      <ErrorDetail
+        error={getError}
+        additionalDetails={msg`Unable to load Ad`}
+      />
     );
   }
 
@@ -70,7 +74,9 @@ export function CreativeForm() {
                 flexWrap="wrap"
               >
                 <CardContainer
-                  header={`${isNew ? "New" : "Edit"} Ad`}
+                  header={
+                    isNew ? <Trans>Create Ad</Trans> : <Trans>Edit Ad</Trans>
+                  }
                   sx={{ flexGrow: 1 }}
                 >
                   <CreativeType allowTypeChange={id === "new"} />
@@ -78,7 +84,7 @@ export function CreativeForm() {
 
                 <ErrorDetail
                   error={submitError}
-                  additionalDetails="Unable to save ad"
+                  additionalDetails={msg`Unable to save ad`}
                 />
 
                 <CreativeCampaigns

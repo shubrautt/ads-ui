@@ -9,10 +9,13 @@ import {
   Box,
   Typography,
 } from "@mui/material";
+import { MessageDescriptor } from "@lingui/core";
+import { Trans } from "@lingui/macro";
+import { Trans as TransWithId } from "@lingui/react";
 
 interface Props {
   error?: any;
-  additionalDetails?: string;
+  additionalDetails?: MessageDescriptor;
 }
 
 export const ErrorDetail = ({ error, additionalDetails }: Props) => {
@@ -30,8 +33,11 @@ export const ErrorDetail = ({ error, additionalDetails }: Props) => {
     return (
       <Box mt={2}>
         <Alert severity="warning">
-          <AlertTitle>401 Forbidden</AlertTitle>A forbidden error was returned.
-          You may need to log out and back in again.
+          <AlertTitle>401 Forbidden</AlertTitle>
+          <Trans>
+            A forbidden error was returned. You may need to log out and back in
+            again.
+          </Trans>
         </Alert>
       </Box>
     );
@@ -40,9 +46,17 @@ export const ErrorDetail = ({ error, additionalDetails }: Props) => {
   return (
     <Box mt={2}>
       <Alert severity="error">
-        <AlertTitle>Something went wrong.</AlertTitle>
-        <p>An error has occurred while processing your request.</p>
-        <p>Please try again, or contact our operations team for assistance.</p>
+        <AlertTitle>
+          <Trans>Something went wrong.</Trans>
+        </AlertTitle>
+        <p>
+          <Trans>An error has occurred while processing your request.</Trans>
+        </p>
+        <p>
+          <Trans>
+            Please try again, or contact our operations team for assistance.
+          </Trans>
+        </p>
       </Alert>
 
       {additionalDetails && (
@@ -51,7 +65,9 @@ export const ErrorDetail = ({ error, additionalDetails }: Props) => {
             <Typography>Additional Details</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <pre style={{ overflow: "scroll" }}>{additionalDetails}</pre>
+            <pre style={{ overflow: "scroll" }}>
+              <TransWithId id={additionalDetails.id} />
+            </pre>
           </AccordionDetails>
         </Accordion>
       )}

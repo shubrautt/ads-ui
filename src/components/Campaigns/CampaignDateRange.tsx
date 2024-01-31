@@ -8,6 +8,8 @@ import { getDefaultTimezone, TimeZonePicker } from "../TimeZonePicker";
 import { TimezoneAwareDatePicker } from "../TimeZonePicker/TimezoneAwareDatePicker";
 import { useIsEdit } from "form/FormikHelpers";
 import { CampaignForm } from "user/views/adsManager/types";
+import { useLingui } from "@lingui/react";
+import { msg, Trans } from "@lingui/macro";
 
 export const CampaignDateRange = () => {
   const { isDraft } = useIsEdit();
@@ -15,12 +17,13 @@ export const CampaignDateRange = () => {
   const [tz, setTz] = useState<string>(getDefaultTimezone());
   const [, startMeta, startHelper] = useField("startAt");
   const [, endMeta, endHelper] = useField("endAt");
+  const { _ } = useLingui();
 
   return (
     <Box>
       <Stack direction="row" spacing={2} alignItems="center" mt={1} mb={1}>
         <TimezoneAwareDatePicker
-          label="Start Date"
+          label={_(msg`Start Date`)}
           tz={tz}
           value={parseISO(startMeta.value)}
           error={!!startMeta.error}
@@ -35,7 +38,7 @@ export const CampaignDateRange = () => {
         <ArrowForwardIcon />
 
         <TimezoneAwareDatePicker
-          label="End Date"
+          label={_(msg`End Date`)}
           tz={tz}
           value={parseISO(endMeta.value)}
           error={!!endMeta.error}
@@ -55,14 +58,19 @@ export const CampaignDateRange = () => {
       <Stack spacing={1} mt={2}>
         {errors.budget && (
           <Typography variant="caption" color="error">
-            The budget is too low for the selected date range. Check the budget
-            tab for more details.
+            <Trans>
+              The budget is too low for the selected date range. Check the
+              budget tab for more details.
+            </Trans>
           </Typography>
         )}
 
         <Typography variant="caption">
-          <strong>*</strong>Campaigns are processed during U.S. business hours.
-          Processing can take more than 2 days.
+          <strong>*</strong>
+          <Trans>
+            Campaigns are processed during U.S. business hours. Processing can
+            take more than 2 days.
+          </Trans>
         </Typography>
       </Stack>
     </Box>

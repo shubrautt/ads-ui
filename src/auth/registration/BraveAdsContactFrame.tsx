@@ -1,6 +1,7 @@
 import { Box, Stack, Toolbar, Typography } from "@mui/material";
 import { LandingPageAppBar } from "components/AppBar/LandingPageAppBar";
 import { Background } from "components/Background/Background";
+import { Trans } from "@lingui/macro";
 
 export function BraveAdsContactFrame() {
   return (
@@ -16,7 +17,7 @@ export function BraveAdsContactFrame() {
         <Toolbar />
         <Stack direction="row" justifyContent="center">
           <Typography textAlign="center" variant="h4" sx={{ mb: 3, mt: 3 }}>
-            Get in touch with our team
+            <Trans>Get in touch with our team</Trans>
           </Typography>
         </Stack>
         <iframe

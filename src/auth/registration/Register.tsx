@@ -16,10 +16,13 @@ import { PersistRegistrationValues } from "form/PersistRegistrationValues";
 import { AccountChoice } from "auth/registration/AccountChoice";
 import { useHistory } from "react-router-dom";
 import { AddressField } from "auth/registration/AddressField";
+import { msg } from "@lingui/macro";
+import { MessageDescriptor } from "@lingui/core";
+import { Trans, useLingui } from "@lingui/react";
 
 type RegistrationStep = {
-  label: string;
-  subheader?: string;
+  label: MessageDescriptor;
+  subheader?: MessageDescriptor;
   component: any;
   pos: string;
 };
@@ -27,17 +30,22 @@ type RegistrationStep = {
 export function Register() {
   const history = useHistory();
   const params = new URLSearchParams(history.location.search);
+  const { _ } = useLingui();
 
   const steps: RegistrationStep[] = [
     {
-      label: "Choose what kind of account to open",
-      subheader: "You can change this later",
+      label: msg`Choose what kind of account to open`,
+      subheader: msg`You can change this later`,
       component: <AccountChoice />,
       pos: "choice",
     },
-    { label: "Create an account", component: <NameField />, pos: "personal" },
     {
-      label: "Create a business profile",
+      label: msg`Create an account`,
+      component: <NameField />,
+      pos: "personal",
+    },
+    {
+      label: msg`Create a business profile`,
       component: <AddressField />,
       pos: "company",
     },
@@ -69,7 +77,7 @@ export function Register() {
           variant="h4"
           sx={{ mb: steps[currentStep].subheader ? 1 : 3 }}
         >
-          {steps[currentStep].label}
+          <Trans id={steps[currentStep].label.id} />
         </Typography>
         {steps[currentStep].subheader && (
           <Typography
@@ -78,7 +86,7 @@ export function Register() {
             color="text.secondary"
             sx={{ mb: 3 }}
           >
-            {steps[currentStep].subheader}
+            <Trans id={steps[currentStep].subheader!.id} />
           </Typography>
         )}
         <Formik
@@ -121,7 +129,7 @@ export function Register() {
                 final={
                   <FormikSubmitButton
                     isCreate={true}
-                    label="Submit for approval"
+                    label={_(msg`Submit for approval`)}
                   />
                 }
               />

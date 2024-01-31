@@ -14,10 +14,14 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { CreativeStatusSwitch } from "components/Creatives/CreativeStatusSwitch";
 import { CustomToolbar } from "components/Datagrid/CustomToolbar";
 import { RouteSelectionButton } from "components/Route/RouteSelectionButton";
+import { msg } from "@lingui/macro";
+import { Trans, useLingui } from "@lingui/react";
+import { MessageDescriptor } from "@lingui/core";
 
 const ALLOWED_TYPES = ["notification_all_v1", "inline_content_all_v1"];
 export function CreativeList() {
   const { advertiser } = useAdvertiser();
+  const { _ } = useLingui();
   const { data, error, loading } = useAdvertiserCreativesQuery({
     variables: {
       advertiserId: advertiser.id,
@@ -29,7 +33,7 @@ export function CreativeList() {
     {
       field: "switch",
       type: "actions",
-      headerName: "On / Off",
+      headerName: _(msg`On / Off`),
       renderCell: ({ row }) => <CreativeStatusSwitch creative={row} />,
       filterable: false,
       sortable: false,
@@ -37,7 +41,7 @@ export function CreativeList() {
     {
       field: "name",
       type: "string",
-      headerName: "Name",
+      headerName: _(msg`Name`),
       renderCell: ({ row }) => (
         <Link
           underline="none"
@@ -55,14 +59,14 @@ export function CreativeList() {
     },
     {
       field: "type",
-      headerName: "Ad Format",
+      headerName: _(msg`Ad Format`),
       valueGetter: ({ row }) => uiTextForCreativeTypeCode(row.type),
       align: "left",
       width: 200,
     },
     {
       field: "content",
-      headerName: "Content",
+      headerName: _(msg`Content`),
       valueGetter: ({ row }) => creativeValuesGetter(row),
       renderCell: ({ row }) => <CreativePayloadList creative={row} />,
       flex: 1,
@@ -70,7 +74,7 @@ export function CreativeList() {
     },
     {
       field: "state",
-      headerName: "State",
+      headerName: _(msg`State`),
       renderCell: ({ row }) => <Status state={row.state} />,
       width: 200,
     },
@@ -84,15 +88,15 @@ export function CreativeList() {
       {error && (
         <ErrorDetail
           error={error}
-          additionalDetails="Unable to retrieve images"
+          additionalDetails={msg`Unable to retrieve images`}
         />
       )}
       <CardContainer
         header={
           <RouteSelectionButton
             routes={[
-              { label: "Ads", value: "ads" },
-              { label: "Images", value: "assets" },
+              { label: _(msg`Ads`), value: "ads" },
+              { label: _(msg`"Images`), value: "assets" },
             ]}
           />
         }
@@ -141,8 +145,8 @@ function CreativePayloadList(props: { creative: CreativeFragment }) {
       listItems = (
         <ListItems
           items={[
-            { primary: "Title", secondary: c.payloadNotification?.title },
-            { primary: "Body", secondary: c.payloadNotification?.body },
+            { primary: msg`Title`, secondary: c.payloadNotification?.title },
+            { primary: msg`Body`, secondary: c.payloadNotification?.body },
           ]}
         />
       );
@@ -151,9 +155,9 @@ function CreativePayloadList(props: { creative: CreativeFragment }) {
       listItems = (
         <ListItems
           items={[
-            { primary: "Title", secondary: c.payloadInlineContent?.title },
+            { primary: msg`Title`, secondary: c.payloadInlineContent?.title },
             {
-              primary: "Call To Action",
+              primary: msg`Call To Action`,
               secondary: c.payloadInlineContent?.ctaText,
             },
           ]}
@@ -172,7 +176,7 @@ function CreativePayloadList(props: { creative: CreativeFragment }) {
 }
 
 const ListItems = (props: {
-  items: { primary: string; secondary?: string }[];
+  items: { primary: MessageDescriptor; secondary?: string }[];
 }) => {
   return props.items.map((i, idx) => (
     <Box key={idx}>
@@ -182,7 +186,7 @@ const ListItems = (props: {
         paddingRight={1}
         fontWeight={600}
       >
-        {i.primary}
+        <Trans id={i.primary.id} />
       </Typography>
       <Typography variant="body1" component="span">
         {i.secondary}
